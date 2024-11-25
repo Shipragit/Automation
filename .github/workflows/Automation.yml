@@ -1,4 +1,4 @@
-name: Automation test
+name: Automation_test
 
 on:
   push:
