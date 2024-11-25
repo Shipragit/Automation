@@ -6,13 +6,12 @@ on:
       - master
       - development
 
-  workflow_dispatch:
-    inputs:
-      runATF:
-        description: "To run the ATF test cases and generate report"
-        required: true
-        default: 'false'
-
+workflow_dispatch:
+  inputs:
+    runATF:
+      description: "To run the ATF test cases and generate report"
+      required: true
+      default: 'false'
 jobs:
   Automationtest:
     if: ${{ github.event.inputs.runATF == 'true' }}
