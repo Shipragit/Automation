@@ -13,7 +13,7 @@ on:
         required: true
         default: 'false'
         
-  Automation_test:
+  Automationtest:
     needs: Git-checkout
     if: ${{ github.event.inputs.runATF == 'true' }}
     name: Automation_test
