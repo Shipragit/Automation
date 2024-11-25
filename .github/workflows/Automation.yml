@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ServiceNow CI/CD Git-checkout Stage
-        run: echo "Pulling latest code from GitHub"
+        run: echo "Pull code from GitHub"
         
   Automationtest:
     if: ${{ github.event.inputs.runATF == 'true' }}
