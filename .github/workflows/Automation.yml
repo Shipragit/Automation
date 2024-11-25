@@ -24,8 +24,8 @@ on:
         with:
           browserName: chrome
           osName: windows
-          testSuiteSysId: 
-          testSuiteName: 
+          testSuiteSysId: bde6d5241b421e107ba2ec64604bcb5e
+          testSuiteName: Phone Number Validation
         env:
           nowUsername: ${{ secrets.NOW_USERNAME }}
           nowPassword: ${{ secrets.NOW_PASSWORD }}
