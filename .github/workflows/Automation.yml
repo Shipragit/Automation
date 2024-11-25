@@ -13,6 +13,12 @@ workflow_dispatch:
       required: true
       default: 'false'
 jobs:
+  Git-checkout:
+    name: Git-checkout
+    runs-on: ubuntu-latest
+    steps:
+      - name: ServiceNow CI/CD Git-checkout Stage
+        
   Automationtest:
     if: ${{ github.event.inputs.runATF == 'true' }}
     name: Automation Test
