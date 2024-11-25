@@ -1,0 +1,33 @@
+name: Automation test
+
+on:
+  push:
+    branches:
+      - master
+      - development
+
+  workflow_dispatch:
+    inputs:
+      runATF:
+        description: "To run the ATF test cases and generate report"
+        required: true
+        default: 'false'
+        
+  Automation_test:
+    needs: Git-checkout
+    if: ${{ github.event.inputs.runATF == 'true' }}
+    name: Automation_test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run ATF Tests
+        uses: ServiceNow/sncicd-tests-run@2.0.0
+        with:
+          browserName: chrome
+          osName: windows
+          testSuiteSysId: 
+          testSuiteName: 
+        env:
+          nowUsername: ${{ secrets.NOW_USERNAME }}
+          nowPassword: ${{ secrets.NOW_PASSWORD }}
+          nowInstallInstance: ${{ secrets.NOW_INSTALL_INSTANCE }}
+  
