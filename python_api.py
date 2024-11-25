@@ -6,8 +6,8 @@ import requests
 url = 'https://brightspeedtsmqa1.service-now.com/api/sn_cicd/testsuite/results/eb0aa8921b82d2505127a933604bcb81'
 
 # Eg. User name="admin", Password="admin" for this code sample.
-user = 'admin'
-pwd = 'admin'
+user = 'shivakumara.appaji@infinite.com'
+pwd = 'Pratheja@123'
 
 # Set proper headers
 headers = {"Content-Type":"application/json","Accept":"application/json"}
