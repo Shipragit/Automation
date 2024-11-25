@@ -12,24 +12,24 @@ on:
         description: "To run the ATF test cases and generate report"
         required: true
         default: 'false'
-        
-  jobs:
-    Automationtest:
-      needs: Git-checkout
-      if: ${{ github.event.inputs.runATF == 'true' }}
-      name: Automation_test
-      runs-on: ubuntu-latest
-      steps:
-        - name: Run ATF Tests
-          uses: ServiceNow/sncicd-tests-run@2.0.0
-          with:
-            browserName: chrome
-            osName: windows
-            testSuiteSysId: bde6d5241b421e107ba2ec64604bcb5e
-            testSuiteName: Phone Number Validation
-          env:
-            nowUsername: ${{ secrets.NOW_USERNAME }}
-            nowPassword: ${{ secrets.NOW_PASSWORD }}
-            nowInstallInstance: ${{ secrets.NOW_INSTALL_INSTANCE }}
- 
-  
+
+jobs:
+  Automationtest:
+    if: ${{ github.event.inputs.runATF == 'true' }}
+    name: Automation Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Run ATF Tests
+        uses: ServiceNow/sncicd-tests-run@2.0.0
+        with:
+          browserName: chrome
+          osName: windows
+          testSuiteSysId: bde6d5241b421e107ba2ec64604bcb5e
+          testSuiteName: Phone Number Validation
+        env:
+          nowUsername: ${{ secrets.NOW_USERNAME }}
+          nowPassword: ${{ secrets.NOW_PASSWORD }}
+          nowInstallInstance: ${{ secrets.NOW_INSTALL_INSTANCE }}
