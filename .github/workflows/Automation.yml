@@ -5,22 +5,22 @@ on:
     branches:
       - master
       - development
+  workflow_dispatch:
+    inputs:
+      runATF:
+        description: "To run the ATF test cases and generate report"
+        required: true
+        default: 'false'
 
-workflow_dispatch:
-  inputs:
-    runATF:
-      description: "To run the ATF test cases and generate report"
-      required: true
-      default: 'false'
 jobs:
   Git-checkout:
-    name: Git-checkout
+    name: Git Checkout
     runs-on: ubuntu-latest
     steps:
       - name: ServiceNow CI/CD Git-checkout Stage
         run: echo "Pull code from GitHub"
-        
-   Automationtest:
+
+  Automationtest:
     if: ${{ github.event.inputs.runATF == 'true' }}
     name: Automation Test
     runs-on: ubuntu-latest
@@ -39,5 +39,3 @@ jobs:
           nowUsername: ${{ secrets.NOW_USERNAME }}
           nowPassword: ${{ secrets.NOW_PASSWORD }}
           nowInstallInstance: ${{ secrets.NOW_INSTALL_INSTANCE }}
-        
- 
