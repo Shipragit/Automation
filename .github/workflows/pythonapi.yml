@@ -3,10 +3,10 @@ name: Run python_api.py Script
 on:
   workflow_dispatch:
     inputs:
-      manual trigger:
+      manual_trigger:
         description: "Triggering python code manually"
         required: true
-        default: false
+        default: "false"
 
 jobs:
   run-script:
