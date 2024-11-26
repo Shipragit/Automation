@@ -1,5 +1,6 @@
 #Need to install requests package for python
 #easy_install requests
+import os
 import requests
 
 # Set the request parameters
