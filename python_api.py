@@ -1,6 +1,6 @@
 #Need to install requests package for python
 #easy_install requests
-#import requests
+import requests
 
 # Set the request parameters
 url = 'https://brightspeedtsmqa1.service-now.com/api/sn_cicd/testsuite/results/eb0aa8921b82d2505127a933604bcb81'
