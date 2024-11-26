@@ -21,6 +21,9 @@ jobs:
         with:
           python-version: "3.9"
 
+      - name: List repository files
+        run: ls -al
+
       - name: Install dependencies
         run: pip install -r requirements.txt
 
