@@ -31,8 +31,8 @@ jobs:
       - name: Run ATF Tests
         uses: ServiceNow/sncicd-tests-run@2.0.0
         with:
-          browserName: chrome
-          osName: windows
+          browserName: headless
+          #osName: windows
           testSuiteSysId: bde6d5241b421e107ba2ec64604bcb5e
           testSuiteName: Phone Number Validation
         env:
