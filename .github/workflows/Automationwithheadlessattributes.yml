@@ -1,0 +1,49 @@
+name: ServiceNow GitHub Actions CI/CD workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      runATF:
+        description: "To run the ATF test cases and generate report"
+        required: true
+        default: 'false'
+
+jobs:
+  Git-checkout:
+    name: Git Checkout
+    runs-on: ubuntu-latest
+    steps:
+      - name: ServiceNow CI/CD Git-checkout Stage
+        run: echo "Pull code from GitHub"
+
+  Automationtest:
+    if: ${{ github.event.inputs.runATF == 'true' }}
+    name: Automation Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Run ATF Tests in Headless Mode
+        run: |
+          curl -X POST \
+            "https://${{ secrets.NOW_INSTALL_INSTANCE }}/api/sn_cicd/testsuite/run" \
+            --user "${{ secrets.NOW_USERNAME }}:${{ secrets.NOW_PASSWORD }}" \
+            -H "Accept: application/json" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "test_suite_sys_id": "bde6d5241b421e107ba2ec64604bcb5e",
+              "browser_name": "headless"
+            }'
+        env:
+          NOW_INSTALL_INSTANCE: ${{ secrets.NOW_INSTALL_INSTANCE }}
+          NOW_USERNAME: ${{ secrets.NOW_USERNAME }}
+          NOW_PASSWORD: ${{ secrets.NOW_PASSWORD }}
+
+      - name: Verify ATF Test Results
+        run: |
+          echo "Fetching results..."
+          curl -X GET \
+            "https://${{ secrets.NOW_INSTALL_INSTANCE }}/api/sn_cicd/testsuite/results/bde6d5241b421e107ba2ec64604bcb5e" \
+            --user "${{ secrets.NOW_USERNAME }}:${{ secrets.NOW_PASSWORD }}" \
+            -H "Accept: application/json"
