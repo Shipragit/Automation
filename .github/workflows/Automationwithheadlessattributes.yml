@@ -1,10 +1,14 @@
-name: Headless attributes
+name: ServiceNow GitHub Actions CI/CD workflow
 
 on:
+  push:
+    branches:
+      - master
+      - development
   workflow_dispatch:
     inputs:
       runATF:
-        description: "To run the ATF test cases and generate report"
+        description: "To run the ATF test cases and generate a report"
         required: true
         default: 'false'
 
@@ -39,11 +43,3 @@ jobs:
           NOW_INSTALL_INSTANCE: ${{ secrets.NOW_INSTALL_INSTANCE }}
           NOW_USERNAME: ${{ secrets.NOW_USERNAME }}
           NOW_PASSWORD: ${{ secrets.NOW_PASSWORD }}
-
-      - name: Verify ATF Test Results
-        run: |
-          echo "Fetching results..."
-          curl -X GET \
-            "https://${{ secrets.NOW_INSTALL_INSTANCE }}/api/sn_cicd/testsuite/results/bde6d5241b421e107ba2ec64604bcb5e" \
-            --user "${{ secrets.NOW_USERNAME }}:${{ secrets.NOW_PASSWORD }}" \
-            -H "Accept: application/json"
