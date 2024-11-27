@@ -1,4 +1,4 @@
-name: ServiceNow GitHub Actions CI/CD workflow
+name: Headless attributes
 
 on:
   workflow_dispatch:
