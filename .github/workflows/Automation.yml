@@ -40,7 +40,3 @@ jobs:
           nowPassword: ${{ secrets.NOW_PASSWORD }}
           nowInstallInstance: ${{ secrets.NOW_INSTALL_INSTANCE }}
 
-      - name: Extract sys_id
-        id: update-python
-        run: |
-          echo "${{ steps.atf-tests.outputs.testSuiteResultSysId }}"
