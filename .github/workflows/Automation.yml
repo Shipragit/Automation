@@ -43,5 +43,4 @@ jobs:
       - name: Extract sys_id
         id: update-python
         run: |
-          echo "${{ steps.atf-tests.outputs.testSuiteResultSysId }}" > sys_id.txt
-          python3 update_sys_id.py sys_id.txt
+          echo "${{ steps.atf-tests.outputs.testSuiteResultSysId }}"
