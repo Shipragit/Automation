@@ -27,7 +27,7 @@ jobs:
           python -m pip install requests
       
       - name: Run Python script
-        run: python_api.py
+        run: ExtractValues.py
 
       - name: Upload HTML file as artifact
         if: success()
