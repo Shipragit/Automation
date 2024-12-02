@@ -28,32 +28,34 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Run ATF Tests
+    - name: Run ATF Tests and Capture Output
       id: run-atf-tests
-      uses: ServiceNow/sncicd-tests-run@2.0.0
-      with:
-        browserName: chrome
-        osName: windows
-        testSuiteSysId: bde6d5241b421e107ba2ec64604bcb5e
-        testSuiteName: Phone Number Validation
-      env:
-        nowUsername: ${{ secrets.NOW_USERNAME }}
-        nowPassword: ${{ secrets.NOW_PASSWORD }}
-        nowInstallInstance: ${{ secrets.NOW_INSTALL_INSTANCE }}
-
-    - name: Capture Test Output
       run: |
-        echo "Capturing test output..."
-        echo "Suite passed" > atf-test-results.txt
-        echo "Test Results:" >> atf-test-results.txt
-        echo "Link to results: https://***.service-now.com/sys_atf_test_suite_result.do?sys_id=c2ae931c1b525e505127a933604bcbad" >> atf-test-results.txt
+        echo "Running ATF Tests..."
+        results=$(npx @servicenow/ci-cd-tests-run \
+          --browserName chrome \
+          --osName windows \
+          --testSuiteSysId bde6d5241b421e107ba2ec64604bcb5e \
+          --testSuiteName "Phone Number Validation" \
+          --nowUsername ${{ secrets.NOW_USERNAME }} \
+          --nowPassword ${{ secrets.NOW_PASSWORD }} \
+          --nowInstallInstance ${{ secrets.NOW_INSTALL_INSTANCE }})
+        echo "$results" > atf-test-results.json
+      env:
+        PATH: ${{ secrets.PATH }} # Ensure `npx` is in your path
+
+    - name: Display Test Results
+      run: |
+        echo "ATF Test Results:"
+        cat atf-test-results.json
 
     - name: Commit and Push Test Results
       run: |
         git config --global user.name "GitHub Actions Bot"
         git config --global user.email "actions@github.com"
-        git add atf-test-results.txt
-        git commit -m "Add ATF test results"
+        git add atf-test-results.json
+        git commit -m "Add dynamic ATF test results"
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
