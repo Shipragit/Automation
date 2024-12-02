@@ -1,4 +1,4 @@
-name: ServiceNow GitHub Actions CI/CD workflow
+name: copy result
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       runATF:
-        description: "To run the ATF test cases and generate a report"
+        description: "To run the ATF test cases and generate report"
         required: true
         default: 'false'
 
@@ -28,18 +28,30 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Run ATF Tests in Headless Mode
-        run: |
-          curl -X POST \
-            "https://${{ secrets.NOW_INSTALL_INSTANCE }}/api/sn_cicd/testsuite/run" \
-            --user "${{ secrets.NOW_USERNAME }}:${{ secrets.NOW_PASSWORD }}" \
-            -H "Accept: application/json" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "test_suite_sys_id": "bde6d5241b421e107ba2ec64604bcb5e",
-              "browser_name": "headless"
-            }'
+      - name: Run ATF Tests
+        id: run-atf-tests
+        uses: ServiceNow/sncicd-tests-run@2.0.0
+        with:
+          browserName: chrome
+          osName: windows
+          testSuiteSysId: bde6d5241b421e107ba2ec64604bcb5e
+          testSuiteName: Phone Number Validation
         env:
-          NOW_INSTALL_INSTANCE: ${{ secrets.NOW_INSTALL_INSTANCE }}
-          NOW_USERNAME: ${{ secrets.NOW_USERNAME }}
-          NOW_PASSWORD: ${{ secrets.NOW_PASSWORD }}
+          nowUsername: ${{ secrets.NOW_USERNAME }}
+          nowPassword: ${{ secrets.NOW_PASSWORD }}
+          nowInstallInstance: ${{ secrets.NOW_INSTALL_INSTANCE }}
+
+      - name: Save Test Results to File
+        run: |
+          echo "Saving test results to file..."
+          echo "${{ steps.run-atf-tests.outputs.result }}" > atf-test-results.json
+
+      - name: Commit and Push Test Results
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          git add atf-test-results.json
+          git commit -m "Add ATF test results"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
