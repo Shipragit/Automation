@@ -36,7 +36,7 @@ jobs:
           osName: windows
           testSuiteSysId: bde6d5241b421e107ba2ec64604bcb5e
           testSuiteName: Phone Number Validation
-            echo "$output" > atf-test-results.json
+            echo "$output" > atf-test-result.json
         env:
           nowUsername: ${{ secrets.NOW_USERNAME }}
           nowPassword: ${{ secrets.NOW_PASSWORD }}
