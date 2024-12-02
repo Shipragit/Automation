@@ -114,4 +114,4 @@ html_result = generate_html(rolledup_test_success_count, rolledup_test_failure_c
 with open('test_results.html', 'w') as f:
     f.write(html_result)
 
-print("HTML file generated successfully!"
+print("HTML file generated successfully!")
