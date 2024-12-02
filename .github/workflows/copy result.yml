@@ -1,3 +1,4 @@
+
 name: ServiceNow GitHub Actions CI/CD workflow
 
 on:
@@ -8,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       runATF:
-        description: "To run the ATF test cases and generate a report"
+        description: "To run the ATF test cases and generate report"
         required: true
         default: 'false'
 
@@ -28,22 +29,18 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Run ATF Tests and Capture Output
-        id: run-atf
-        run: |
-          echo "Running ATF Tests..."
-          output=$(npx @servicenow/ci-cd-tests-run \
-            --browserName chrome \
-            --osName windows \
-            --testSuiteSysId bde6d5241b421e107ba2ec64604bcb5e \
-            --testSuiteName "Phone Number Validation" \
-            --nowUsername ${{ secrets.NOW_USERNAME }} \
-            --nowPassword ${{ secrets.NOW_PASSWORD }} \
-            --nowInstallInstance ${{ secrets.NOW_INSTALL_INSTANCE }})
-          echo "$output" > atf-test-results.json
-          echo "$output"
+      - name: Run ATF Tests
+        uses: ServiceNow/sncicd-tests-run@2.0.0
+        with:
+          browserName: chrome
+          osName: windows
+          testSuiteSysId: bde6d5241b421e107ba2ec64604bcb5e
+          testSuiteName: Phone Number Validation
+            echo "$output" > atf-test-results.json
         env:
-          PATH: ${{ secrets.PATH }} # Ensure `npx` is in your path
+          nowUsername: ${{ secrets.NOW_USERNAME }}
+          nowPassword: ${{ secrets.NOW_PASSWORD }}
+          nowInstallInstance: ${{ secrets.NOW_INSTALL_INSTANCE }}
 
       - name: Save Test Results to Repository
         run: |
@@ -53,4 +50,5 @@ jobs:
           git commit -m "Save ATF test results"
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      
