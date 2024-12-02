@@ -4,7 +4,7 @@ import os
 import requests
 
 # Set the request parameters
-url = 'https://brightspeedtsmqa1.service-now.com/api/sn_cicd/testsuite/results/eb0aa8921b82d2505127a933604bcb81'
+url = 'https://brightspeedtsmqa1.service-now.com/api/sn_cicd/testsuite/results/bde6d5241b421e107ba2ec64604bcb5e'
 
 # Eg. User name="admin", Password="admin" for this code sample.
 user = 'shivakumara.appaji@infinite.com'
